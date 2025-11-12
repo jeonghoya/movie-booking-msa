@@ -1,0 +1,64 @@
+<!--
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>영화 예매하기</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <h1><a href="/">영화 예매 시스템</a></h1>
+</header>
+<main class="form-container">
+    <h2 id="movie-title">영화 제목 로딩 중...</h2>
+    <form id="booking-form">
+        <div class="form-group">
+            <label for="ticketCount">인원</label>
+            <input type="number" id="ticketCount" name="ticketCount" min="1" value="1" required>
+        </div>
+        <div class="form-group">
+            <label for="seatInfo">좌석 (예: A1, A2)</label>
+            <input type="text" id="seatInfo" name="seatInfo" required>
+        </div>
+        <button type="submit">예매 확정</button>
+    </form>
+</main>
+<script src="/js/booking.js"></script>
+</body>
+</html>
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>좌석 선택</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <h1><a href="/">좌석 선택</a></h1>
+</header>
+<main>
+    <div class="booking-process-container">
+        <div class="seat-selection-container">
+            <div class="screen">SCREEN</div>
+            <div id="seat-map"></div>
+        </div>
+        <div class="booking-summary-container">
+            <h3>예매 정보</h3>
+            <div id="booking-summary">
+                <p><strong>영화:</strong> <span id="summary-movie-title"></span></p>
+                <p><strong>상영관:</strong> <span id="summary-hall-name"></span></p>
+                <p><strong>상영시간:</strong> <span id="summary-screening-time"></span></p>
+                <hr>
+                <p><strong>선택 좌석:</strong> <span id="summary-seats">없음</span></p>
+                <p><strong>총 금액:</strong> <span id="summary-total-price">0</span>원</p>
+            </div>
+            <button id="confirm-booking-btn" class="primary-btn">예매하기</button>
+        </div>
+    </div>
+</main>
+<script src="/js/booking.js"></script>
+</body>
+</html>

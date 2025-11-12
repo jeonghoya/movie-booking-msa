@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # 1. 역방향 프록시 (Nginx Proxy Manager)
+  myproxy:
+    image: jc21/nginx-proxy-manager
+    container_name: myproxy
+    restart: unless-stopped
+    ports:
+      - "80:80"   # HTTP
+      - "81:81"   # Nginx Proxy Manager 관리자 페이지
+      - "443:443" # HTTPS
+    volumes:
+      - ./nginx-proxy-manager/data:/data
+      - ./nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+    networks:
+      - msa-net
+
+  # 2. 프론트엔드 프로그램 (Apache)
+  frontend-web:
+    build:
+      context: ./frontend-web # ./frontend-web 폴더의 Dockerfile을 사용
+    container_name: frontend-web
+    restart: always
+    networks:
+      - msa-net
+    # 포트: 외부로 노출할 필요 없음. myproxy가 내부망으로 80포트에 접근
+
+  # 3. 서버 프로그램 1 (User Service)
+  user-service:
+    build:
+      context: ./user-service # ./user-service 폴더의 Dockerfile을 사용
+    container_name: user-service
+    restart: always
+    networks:
+      - msa-net
+    depends_on: # 실행 순서: DB와 Redis가 먼저 뜬 후에 실행
+      - mysql-container
+      - myredis
+    # 포트: 외부 노출 불필요. myproxy가 내부망으로 8081포트에 접근
+
+  # 4. 서버 프로그램 2 (Core Service)
+  core-service:
+    build:
+      context: ./core-service # ./core-service 폴더의 Dockerfile을 사용
+    container_name: core-service
+    restart: always
+    networks:
+      - msa-net
+    depends_on: # 실행 순서: DB와 Redis가 먼저 뜬 후에 실행
+      - mysql-container
+      - myredis
+    # [cite_start]포트: 외부 노출 불필요. myproxy가 내부망으로 8082포트에 접근 [cite: 2]
+
+  # 5. DB (MySQL)
+  mysql-container:
+    image: mysql:8.0
+    container_name: mysql-container # application.properties와 이름 일치
+    restart: always
+    ports:
+      - "33306:3306" # <-- ⬅️ 바로 이 부분입니다!
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456 # application.properties와 일치
+      MYSQL_DATABASE: movie_db    # application.properties와 일치
+    command: # 수업에서 하신 한글 인코딩 설정
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes: # DB 데이터를 PC(Ubuntu)에 저장하여 컨테이너가 삭제돼도 보존
+      - ./mysql-data:/var/lib/mysql
+    networks:
+      - msa-net
+
+  # 6. 세션 공유 서버 (Redis)
+  myredis:
+    image: redis
+    container_name: myredis # application.properties와 이름 일치
+    restart: always
+    ports:
+      - "6379:6379" # 로컬에서 Redis-cli로 접속해볼 수 있도록 포트 개방
+    networks:
+      - msa-net
+
+# 모든 컨테이너가 함께 사용할 가상 네트워크
+networks:
+  msa-net:
+    driver: bridge

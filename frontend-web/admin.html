@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 페이지</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <h1><a href="/">영화 예매 시스템 (관리자)</a></h1>
+</header>
+<main>
+    <h2>영화 관리</h2>
+    <div class="form-container">
+        <form id="movie-form">
+            <input type="hidden" id="movieId">
+            <h3>새 영화 등록 / 수정</h3>
+            <div class="form-group">
+                <label for="title">제목</label>
+                <input type="text" id="title" required>
+            </div>
+            <div class="form-group">
+                <label for="director">감독</label>
+                <input type="text" id="director" required>
+            </div>
+            <div class="form-group">
+                <label for="genre">장르</label>
+                <input type="text" id="genre" required>
+            </div>
+            <div class="form-group">
+                <label for="runningTime">상영시간 (분)</label>
+                <input type="number" id="runningTime" required>
+            </div>
+            <button type="submit">저장</button>
+            <button type="button" id="cancel-edit-btn" style="display:none; background-color: #6c757d;">수정 취소</button>
+        </form>
+    </div>
+
+    <hr>
+
+    <h3>등록된 영화 목록</h3>
+    <table id="admin-movie-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>제목</th>
+            <th>감독</th>
+            <th>관리</th>
+        </tr>
+        </thead>
+        <tbody id="admin-movie-list">
+        </tbody>
+    </table>
+    <hr>
+
+    <h2>상영 정보 관리</h2>
+    <div class="form-container">
+        <form id="screening-form">
+            <h3>새 상영 정보 등록</h3>
+            <div class="form-group">
+                <label for="movie-select">영화 선택</label>
+                <select id="movie-select" required>
+                    <option value="">-- 영화를 선택하세요 --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="hall-select">상영관 선택</label>
+                <select id="hall-select" required>
+                    <option value="">-- 상영관을 선택하세요 --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="screening-time">상영 시작 시간</label>
+                <input type="datetime-local" id="screening-time" required>
+            </div>
+            <button type="submit">상영 정보 추가</button>
+        </form>
+    </div>
+
+    <h3>등록된 상영 목록</h3>
+    <table id="admin-screening-table">
+        <thead>
+        <tr>
+            <th>상영 ID</th>
+            <th>영화 제목</th>
+            <th>상영관</th>
+            <th>상영 시간</th>
+            <th>관리</th>
+        </tr>
+        </thead>
+        <tbody id="admin-screening-list"></tbody>
+    </table>
+    <hr>
+
+    <h2>리뷰 관리</h2>
+    <table id="admin-review-table">
+        <thead>
+        <tr>
+            <th>리뷰 ID</th>
+            <th>영화 제목</th>
+            <th>작성자</th>
+            <th>리뷰 내용</th>
+            <th>관리</th>
+        </tr>
+        </thead>
+        <tbody id="admin-review-list">
+        </tbody>
+    </table>
+</main>
+<script src="/js/admin.js"></script>
+</body>
+</html>

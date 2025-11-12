@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>영화 예매 시스템</title>
+    <link rel="stylesheet" href="/css/style.css"> </head>
+<body>
+<header>
+    <h1><a href="/">영화 예매 시스템</a></h1>
+    <nav>
+        <a href="/login.html" id="login-link">로그인</a>
+        <a href="/signup.html" id="signup-link">회원가입</a>
+        <a href="/my_bookings.html" id="my-bookings-link" style="display:none;">내 예매내역</a>
+        <a href="/admin.html" id="admin-link" style="display:none;">관리자 페이지</a>
+        <a href="/my_info.html" id="my-info-link" style="display:none;">내 정보</a>
+        <a href="#" id="logout-link" style="display:none;">로그아웃</a>
+    </nav>
+</header>
+
+<main>
+    <h2>상영중인 영화</h2>
+    <div id="movie-list" class="movie-grid">
+    </div>
+</main>
+
+<script src="/js/auth.js"></script> <script src="/js/movies.js"></script> </body>
+</html>

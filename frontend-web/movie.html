@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>영화 상세 정보</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <h1><a href="/">영화 예매 시스템</a></h1>
+</header>
+<main>
+    <div id="movie-details" class="info-card">
+    </div>
+    <hr>
+
+    <h3>상영 시간표</h3>
+    <div id="screening-list" class="screening-container">
+        </div>
+
+    <hr>
+
+    <h3>리뷰</h3>
+    <div id="review-list">
+    </div>
+
+    <div id="review-form-container" class="form-container" style="display:none;">
+        <form id="review-form">
+            <h4>리뷰 작성하기</h4>
+            <div class="form-group">
+                <label for="rating">별점</label>
+                <select id="rating" required>
+                    <option value="5">★★★★★</option>
+                    <option value="4">★★★★</option>
+                    <option value="3">★★★</option>
+                    <option value="2">★★</option>
+                    <option value="1">★</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="content">내용</label>
+                <textarea id="content" rows="4" required></textarea>
+            </div>
+            <button type="submit">작성 완료</button>
+        </form>
+    </div>
+</main>
+<script src="/js/movie.js"></script>
+</body>
+</html>
