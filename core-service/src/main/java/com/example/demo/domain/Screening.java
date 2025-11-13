@@ -6,13 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Screening {
+public class Screening implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

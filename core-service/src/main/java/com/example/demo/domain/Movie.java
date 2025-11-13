@@ -51,6 +51,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +59,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Movie {
+public class Movie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -74,12 +75,12 @@ public class Movie {
     // Movie는 이제 Booking이 아닌 Screening과 직접 관계를 맺습니다.
     @JsonIgnore
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
-    private List<Screening> screenings = new ArrayList<>();
+    private transient List<Screening> screenings = new ArrayList<>();
     // --- 여기까지 ---
 
     @JsonIgnore
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();
+    private transient List<Review> reviews = new ArrayList<>();
 
     public void addReview(Review review) {
         this.reviews.add(review);

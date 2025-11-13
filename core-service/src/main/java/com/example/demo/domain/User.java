@@ -8,13 +8,14 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "users") // <-- 바로 이 줄을 추가해 주세요!
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,7 +33,7 @@ public class User {
     // 예매 목록과의 관계 (1:N)
     @JsonIgnore // <-- 이 어노테이션을 추가하세요!
     @OneToMany(mappedBy = "user")
-    private List<Booking> bookings = new ArrayList<>();
+    private transient List<Booking> bookings = new ArrayList<>();
 
     // --- ✨ 아래 필드를 새로 추가합니다. ---
     @Column(nullable = false)
@@ -41,7 +42,7 @@ public class User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();
+    private transient List<Review> reviews = new ArrayList<>();
 
     // ✨ 연관관계 편의 메소드 추가
     public void addReview(Review review) {

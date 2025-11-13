@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const response = await fetch(url, {
             method: method,
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
                 //'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(movieData)

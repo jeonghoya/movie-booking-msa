@@ -6,11 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class ScreeningHall {
+public class ScreeningHall implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
