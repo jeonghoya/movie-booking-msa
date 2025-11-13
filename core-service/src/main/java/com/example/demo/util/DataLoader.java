@@ -43,6 +43,7 @@ import com.example.demo.domain.*;
 import com.example.demo.repository.MovieRepository;
 import com.example.demo.repository.ScreeningHallRepository;
 import com.example.demo.repository.ScreeningRepository;
+import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
