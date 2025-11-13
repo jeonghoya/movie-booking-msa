@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 전체 리뷰 목록 불러오기 함수 수정
     const fetchAllReviews = async () => {
         const response = await fetch('/api/core/admin/reviews', {
-            headers: { 'Authorization': `Bearer ${token}` }
+            headers: { //'Authorization': `Bearer ${token}` }
         });
         const reviews = await response.json();
         reviewListBody.innerHTML = '';
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
             method: method,
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                //'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(movieData)
         });
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    //'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(screeningData)
             });
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (confirm(`정말로 ID ${id} 영화를 삭제하시겠습니까?`)) {
                 const response = await fetch(`/api/core/movies/${id}`, {
                     method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` }
+                    headers: { //'Authorization': `Bearer ${token}` }
                 });
                 if (response.ok) {
                     alert('영화가 삭제되었습니다.');
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (confirm(`정말로 ID ${id} 리뷰를 삭제하시겠습니까?`)) {
                 const response = await fetch(`/api/core/reviews/${id}`, {
                     method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` }
+                    headers: { //'Authorization': `Bearer ${token}` }
                 });
                 if (response.ok) {
                     alert('리뷰가 삭제되었습니다.');
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (confirm(`정말로 ID ${id} 상영 정보를 삭제하시겠습니까?`)) {
                 const response = await fetch(`/api/core/screenings/${id}`, {
                     method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` }
+                    headers: { //'Authorization': `Bearer ${token}` }
                 });
                 if (response.ok) {
                     alert('상영 정보가 삭제되었습니다.');

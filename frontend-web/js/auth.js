@@ -46,9 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 await fetch('/api/user/logout', {
                     method: 'POST',
-                    headers: { 'Authorization': `Bearer ${token}` }
+                    headers: {}
+                    //headers: { 'Authorization': `Bearer ${token}` }
                 });
-                localStorage.removeItem('token');
+                //localStorage.removeItem('token');
                 alert('로그아웃 되었습니다.');
                 window.location.href = '/';
             });
@@ -118,8 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (response.ok) {
-                    const token = await response.text(); // JWT는 일반 텍스트로 응답됨
-                    localStorage.setItem('token', token); // 브라우저의 localStorage에 토큰 저장
+                    //const token = await response.text(); // JWT는 일반 텍스트로 응답됨
+                    //localStorage.setItem('token', token); // 브라우저의 localStorage에 토큰 저장
                     alert('로그인 성공!');
                     window.location.href = '/'; // 메인 페이지로 리디렉션
                 } else {

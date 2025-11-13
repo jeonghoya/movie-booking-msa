@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 1. 내 예매 내역 API 호출
     fetch('/api/core/bookings', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { //'Authorization': `Bearer ${token}` }
     })
     .then(response => response.json())
     .then(bookings => {
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 try {
                     const response = await fetch(`/api/core/bookings/${bookingId}`, {
                         method: 'DELETE',
-                        headers: { 'Authorization': `Bearer ${token}` }
+                        headers: { //'Authorization': `Bearer ${token}` }
                     });
 
                     if (response.ok) {
