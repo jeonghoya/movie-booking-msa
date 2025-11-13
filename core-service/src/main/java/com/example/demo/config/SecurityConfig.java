@@ -126,6 +126,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/core/bookings/**").authenticated()
                         .requestMatchers("/api/core/reviews/**").authenticated()
                         .requestMatchers("/api/core/movies/{movieId}/reviews").authenticated()
+                        .requestMatchers("/api/core/users/me/reviews").authenticated() // ✨ 이 줄 추가
 
                         // 4. 나머지 모든 요청은 거부 (혹은 authenticated()도 가능)
                         .anyRequest().denyAll()

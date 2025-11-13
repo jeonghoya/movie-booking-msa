@@ -2,9 +2,10 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     const bookingsListDiv = document.getElementById('bookings-list');
-    const token = localStorage.getItem('token');
+    //const token = localStorage.getItem('token');
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
 
-    if (!token) {
+    if (!isLoggedIn) {
         alert('로그인이 필요합니다.');
         window.location.href = '/login.html';
         return;
@@ -46,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 try {
                     const response = await fetch(`/api/core/bookings/${bookingId}`, {
                         method: 'DELETE'
-                        //headers: { //'Authorization': `Bearer ${token}` }
                     });
 
                     if (response.ok) {
