@@ -11,9 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 1. 내 예매 내역 API 호출
-    fetch('/api/core/bookings', {
-        headers: { //'Authorization': `Bearer ${token}` }
-    })
+    fetch('/api/core/bookings')
     .then(response => response.json())
     .then(bookings => {
         if (bookings.length === 0) {

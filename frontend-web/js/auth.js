@@ -16,7 +16,8 @@ function parseJwt(token) {
 
 document.addEventListener('DOMContentLoaded', () => {
     // === 네비게이션 메뉴 상태 업데이트 로직 (모든 페이지에서 실행) ===
-    const token = localStorage.getItem('token');
+    //const token = localStorage.getItem('token');
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
     const loginLink = document.getElementById('login-link');
     const signupLink = document.getElementById('signup-link');
     const myBookingsLink = document.getElementById('my-bookings-link');
@@ -25,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutLink = document.getElementById('logout-link');
 
     // ✨ 각 링크가 존재하는 경우에만 스타일을 변경하도록 수정
-    if (token) {
+    if (isLoggedIn) {
         // 로그인 상태일 때
         const decodedToken = parseJwt(token); // ✨ 토큰 해석
         const userRole = decodedToken ? decodedToken.role : null;
@@ -50,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     //headers: { 'Authorization': `Bearer ${token}` }
                 });
                 //localStorage.removeItem('token');
+                localStorage.removeItem('isLoggedIn');
                 alert('로그아웃 되었습니다.');
                 window.location.href = '/';
             });
@@ -122,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     //const token = await response.text(); // JWT는 일반 텍스트로 응답됨
                     //localStorage.setItem('token', token); // 브라우저의 localStorage에 토큰 저장
                     alert('로그인 성공!');
+                    localStorage.setItem('isLoggedIn', 'true');
                     window.location.href = '/'; // 메인 페이지로 리디렉션
                 } else {
                     alert('로그인 실패: 이메일 또는 비밀번호를 확인해주세요.');
