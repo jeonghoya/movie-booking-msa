@@ -1,12 +1,13 @@
 // static/js/admin.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    const token = localStorage.getItem('token');
+    //const token = localStorage.getItem('token');
     // 간단한 JWT 해석 함수 (auth.js에도 동일한 함수가 있어야 함)
     function parseJwt(token) { try { return JSON.parse(atob(token.split('.')[1])); } catch (e) { return null; } }
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
 
     // 관리자가 아니면 페이지 접근 차단
-    if (!token || !parseJwt(token) || parseJwt(token).role !== 'ADMIN') {
+    if (!isLoggedIn) {
         alert('관리자만 접근할 수 있습니다.');
         window.location.href = '/';
         return;

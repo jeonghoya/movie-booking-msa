@@ -2,14 +2,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const screeningId = params.get('screeningId');
-    const token = localStorage.getItem('token');
+    //const token = localStorage.getItem('token');
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
     // --- ✨ 아래 변수 선언들을 추가합니다 ---
     const summaryMovieTitle = document.getElementById('summary-movie-title');
     const summaryHallName = document.getElementById('summary-hall-name');
     const summaryScreeningTime = document.getElementById('summary-screening-time');
     const summaryTotalPrice = document.getElementById('summary-total-price');
 
-    if (!token || !screeningId) {
+    if (!isLoggedIn || !screeningId) {
         alert('잘못된 접근입니다.');
         window.location.href = '/';
         return;

@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const movieId = params.get('id');
-    const token = localStorage.getItem('token');
+    //const token = localStorage.getItem('token');
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
 
     const movieDetailsDiv = document.getElementById('movie-details');
     const reviewListDiv = document.getElementById('review-list');
@@ -73,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // 로그인 상태이면 리뷰 작성 폼 보여주기
-    if (token) {
+    if (isLoggedIn) {
         reviewFormContainer.style.display = 'block';
     }
 

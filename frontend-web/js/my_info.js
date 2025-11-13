@@ -1,9 +1,10 @@
 // static/js/my_info.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    const token = localStorage.getItem('token');
+    //const token = localStorage.getItem('token');
+    const isLoggedIn = localStorage.getItem('isLoggedIn'); // ✨ 수정
 
-    if (!token) {
+    if (!isLoggedIn) {
         alert('로그인이 필요합니다.');
         window.location.href = '/login.html';
         return;
