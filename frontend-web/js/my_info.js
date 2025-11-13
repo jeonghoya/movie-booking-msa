@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ✨ --- 1. 누락되었던 사용자 정보 조회 fetch 코드 --- ✨
-    fetch('/users/me', {
+    fetch('/api/user/me', {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ✨ --- 2. 기존에 있던 내 리뷰 목록 조회 fetch 코드 --- ✨
     const myReviewListDiv = document.getElementById('my-review-list');
-    fetch('/users/me/reviews', {
+    fetch('/api/core/users/me/reviews', {
         headers: { 'Authorization': `Bearer ${token}` }
     })
     .then(res => res.json())

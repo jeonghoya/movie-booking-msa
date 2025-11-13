@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    fetch(`/movies/${movieId}`)
+    fetch(`/api/core/movies/${movieId}`)
         .then(res => res.json())
         .then(movie => {
             movieDetailsDiv.innerHTML = `
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ✨ --- 상영 시간표 불러오기 로직 추가 ---
-    fetch(`/movies/${movieId}/screenings`)
+    fetch(`/api/core/movies/${movieId}/screenings`)
         .then(res => res.json())
         .then(screenings => {
             if (screenings.length === 0) {
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 리뷰 목록 불러오기 함수
     const fetchReviews = () => {
-        fetch(`/movies/${movieId}/reviews`)
+        fetch(`/api/core/movies/${movieId}/reviews`)
             .then(res => res.json())
             .then(reviews => {
                 reviewListDiv.innerHTML = ''; // 기존 목록 초기화
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const content = document.getElementById('content').value;
         const rating = parseInt(document.getElementById('rating').value, 10);
 
-        const response = await fetch(`/movies/${movieId}/reviews`, {
+        const response = await fetch(`/api/core/movies/${movieId}/reviews`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

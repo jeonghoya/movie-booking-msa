@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (logoutLink) {
             logoutLink.addEventListener('click', async (e) => {
                 e.preventDefault();
-                await fetch('/users/logout', {
+                await fetch('/api/user/logout', {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('password').value;
 
             try {
-                const response = await fetch('/users/signup', {
+                const response = await fetch('/api/user/signup', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('password').value;
 
             try {
-                const response = await fetch('/users/login', {
+                const response = await fetch('/api/user/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

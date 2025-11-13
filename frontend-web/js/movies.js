@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const movieListDiv = document.getElementById('movie-list');
 
     // 백엔드 API에 영화 목록을 요청
-    fetch('/movies')
+    fetch('/api/core/movies')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');

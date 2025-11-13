@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 1. 내 예매 내역 API 호출
-    fetch('/bookings', {
+    fetch('/api/core/bookings', {
         headers: { 'Authorization': `Bearer ${token}` }
     })
     .then(response => response.json())
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (confirm('정말로 이 예매를 취소하시겠습니까?')) {
                 try {
-                    const response = await fetch(`/bookings/${bookingId}`, {
+                    const response = await fetch(`/api/core/bookings/${bookingId}`, {
                         method: 'DELETE',
                         headers: { 'Authorization': `Bearer ${token}` }
                     });

@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 영화 목록 불러오기 함수
     const fetchMovies = async () => {
-        const response = await fetch('/movies');
+        const response = await fetch('/api/core/movies');
         const movies = await response.json();
         movieListBody.innerHTML = ''; // 기존 목록 초기화
         movies.forEach(movie => {
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ✨ 전체 리뷰 목록 불러오기 함수 추가
     // 전체 리뷰 목록 불러오기 함수 수정
     const fetchAllReviews = async () => {
-        const response = await fetch('/admin/reviews', {
+        const response = await fetch('/api/core/admin/reviews', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const reviews = await response.json();
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 영화 목록 불러와서 드롭다운 채우기
     const populateMovieSelect = async () => {
-        const response = await fetch('/movies');
+        const response = await fetch('/api/core/movies');
         const movies = await response.json();
         movies.forEach(movie => {
             const option = `<option value="${movie.id}">${movie.title}</option>`;
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 상영관 목록 불러와서 드롭다운 채우기
     const populateHallSelect = async () => {
-        const response = await fetch('/screening-halls'); // 백엔드에 GET /screening-halls API 필요
+        const response = await fetch('/api/core/screening-halls'); // 백엔드에 GET /screening-halls API 필요
         const halls = await response.json();
         halls.forEach(hall => {
             const option = `<option value="${hall.id}">${hall.name}</option>`;
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 등록된 모든 상영 목록 불러오기
     const fetchAllScreenings = async () => {
         // ✨ GET /screenings API는 모든 상영 정보를 반환합니다.
-        const response = await fetch('/screenings');
+        const response = await fetch('/api/core/screenings');
         const screenings = await response.json();
         screeningListBody.innerHTML = '';
         screenings.forEach(s => {
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const response = await fetch('/screenings', {
+            const response = await fetch('/api/core/screenings', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- 기존 영화 수정/삭제 로직 ---
         // 수정 버튼 클릭 시
         if (e.target.matches('.edit-btn')) {
-            const response = await fetch(`/movies/${id}`);
+            const response = await fetch(`/api/core/movies/${id}`);
             const movie = await response.json();
 
             movieIdInput.value = movie.id;
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 삭제 버튼 클릭 시
         if (e.target.matches('.delete-btn')) {
             if (confirm(`정말로 ID ${id} 영화를 삭제하시겠습니까?`)) {
-                const response = await fetch(`/movies/${id}`, {
+                const response = await fetch(`/api/core/movies/${id}`, {
                     method: 'DELETE',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- ✨ 리뷰 삭제 버튼 클릭 시 ---
         if (e.target.matches('.review-delete-btn')) {
             if (confirm(`정말로 ID ${id} 리뷰를 삭제하시겠습니까?`)) {
-                const response = await fetch(`/reviews/${id}`, {
+                const response = await fetch(`/api/core/reviews/${id}`, {
                     method: 'DELETE',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 상영 정보 삭제 버튼 클릭 시
         if (e.target.matches('.screening-delete-btn')) {
             if (confirm(`정말로 ID ${id} 상영 정보를 삭제하시겠습니까?`)) {
-                const response = await fetch(`/screenings/${id}`, {
+                const response = await fetch(`/api/core/screenings/${id}`, {
                     method: 'DELETE',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
