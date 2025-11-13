@@ -6,7 +6,7 @@ WORKDIR /app
 
 # build.gradle 파일만 먼저 복사하여 의존성을 캐시합니다.
 COPY build.gradle settings.gradle ./
-RUN gradle build --no-daemon -x test
+RUN gradle dependencies --no-daemon
 
 # 전체 소스 코드를 복사합니다.
 COPY src ./src
