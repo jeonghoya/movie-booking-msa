@@ -14,6 +14,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class Review implements Serializable {
 
+    private static final long serialVersionUID = 1L; // ✨ 이 줄 추가
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Screening implements Serializable {
 
+    private static final long serialVersionUID = 1L; // ✨ 이 줄 추가
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
