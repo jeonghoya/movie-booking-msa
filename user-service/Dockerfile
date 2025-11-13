@@ -11,8 +11,8 @@ RUN gradle dependencies --no-daemon
 # 전체 소스 코드를 복사합니다.
 COPY src ./src
 
-# Gradle을 사용하여 애플리케이션을 빌드합니다. (테스트는 생략)
-RUN gradle build --no-daemon -x test
+# 소스 코드가 복사된 후, 'build' 대신 'bootJar'를 실행
+RUN gradle bootJar --no-daemon
 
 # 2. 실행(Runtime) 단계: 신뢰할 수 있는 다른 OpenJDK 17 이미지로 변경
 FROM eclipse-temurin:17-jre-focal
