@@ -14,8 +14,8 @@ COPY src ./src
 # Gradle을 사용하여 애플리케이션을 빌드합니다. (테스트는 생략)
 RUN gradle build --no-daemon -x test
 
-# 2. 실행(Runtime) 단계: 빌드된 .jar 파일만 가벼운 JRE 이미지로 옮깁니다.
-FROM openjdk:17-jre-slim
+# 2. 실행(Runtime) 단계: 신뢰할 수 있는 다른 OpenJDK 17 이미지로 변경
+FROM eclipse-temurin:17-jre-focal
 
 # 작업 디렉토리 설정
 WORKDIR /app

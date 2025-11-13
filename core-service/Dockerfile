@@ -6,8 +6,8 @@ RUN gradle dependencies --no-daemon
 COPY src ./src
 RUN gradle build --no-daemon -x test
 
-# 2. 실행(Runtime) 단계
-FROM openjdk:17-jre-slim
+# 2. 실행(Runtime) 단계: 신뢰할 수 있는 다른 OpenJDK 17 이미지로 변경
+FROM eclipse-temurin:17-jre-focal
 WORKDIR /app
 
 # .jar 파일 경로는 build/libs/demo-0.0.1-SNAPSHOT.jar가 기본입니다.
