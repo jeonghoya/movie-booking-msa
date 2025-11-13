@@ -1,18 +1,18 @@
 // auth.js
 
 // ✨ 파일 상단 또는 DOMContentLoaded 리스너 바깥에 JWT 해석 함수 추가
-function parseJwt(token) {
-    try {
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-        return JSON.parse(jsonPayload);
-    } catch (e) {
-        return null;
-    }
-}
+//function parseJwt(token) {
+//    try {
+//        const base64Url = token.split('.')[1];
+//        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+//        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+//            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+//        }).join(''));
+//        return JSON.parse(jsonPayload);
+//    } catch (e) {
+//        return null;
+//    }
+//}
 
 document.addEventListener('DOMContentLoaded', () => {
     // === 네비게이션 메뉴 상태 업데이트 로직 (모든 페이지에서 실행) ===
@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ✨ 각 링크가 존재하는 경우에만 스타일을 변경하도록 수정
     if (isLoggedIn) {
         // 로그인 상태일 때
-        const decodedToken = parseJwt(token); // ✨ 토큰 해석
-        const userRole = decodedToken ? decodedToken.role : null;
+        //const decodedToken = parseJwt(token); // ✨ 토큰 해석
+        //const userRole = decodedToken ? decodedToken.role : null;
 
         if (loginLink) loginLink.style.display = 'none';
         if (signupLink) signupLink.style.display = 'none';
@@ -38,9 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (logoutLink) logoutLink.style.display = 'inline';
 
         // ✨ ADMIN 역할일 경우 관리자 페이지 링크 보이기
-        if (userRole === 'ADMIN' && adminLink) {
-            adminLink.style.display = 'inline';
-        }
+//        if (userRole === 'ADMIN' && adminLink) {
+//            adminLink.style.display = 'inline';
+//        }
+        if (adminLink) adminLink.style.display = 'inline'; // (임시)
 
         if (logoutLink) {
             logoutLink.addEventListener('click', async (e) => {
