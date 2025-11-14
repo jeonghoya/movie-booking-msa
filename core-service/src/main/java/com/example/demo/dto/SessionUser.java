@@ -39,8 +39,8 @@ public class SessionUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // 역할(Role)을 Spring Security가 인식할 수 있는 GrantedAuthority로 변환
-        return Collections.singletonList(new SimpleGrantedAuthority(this.role.name()));
+        // "ROLE_USER" 또는 "ROLE_ADMIN"을 반환
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
     }
 
     @Override
