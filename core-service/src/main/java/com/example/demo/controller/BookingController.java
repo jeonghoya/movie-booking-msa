@@ -75,9 +75,32 @@ public class BookingController {
         return ResponseEntity.ok(booking);
     }
 
+//    @GetMapping
+//    public ResponseEntity<List<BookingResponseDto>> getUserBookings() { // ✨ 파라미터 수정
+//        List<BookingResponseDto> bookings = bookingService.findMyBookings(); // ✨ 파라미터 수정
+//        return ResponseEntity.ok(bookings);
+//    }
+
     @GetMapping
-    public ResponseEntity<List<BookingResponseDto>> getUserBookings() { // ✨ 파라미터 수정
-        List<BookingResponseDto> bookings = bookingService.findMyBookings(); // ✨ 파라미터 수정
+    public ResponseEntity<List<BookingResponseDto>> getUserBookings(
+            // ✨ @AuthenticationPrincipal을 사용해 세션 객체를 바로 주입받습니다.
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        // ✨✨✨ 세션 확인 로직 ✨✨✨
+        if (userDetails != null) {
+            System.out.println("--- CORE-SERVICE 세션 확인 ---");
+            System.out.println("Principal 객체 타입: " + userDetails.getClass().getName());
+            System.out.println("사용자 이름(이메일): " + userDetails.getUsername());
+            System.out.println("사용자 권한: " + userDetails.getAuthorities());
+            System.out.println("-----------------------------");
+        } else {
+            System.out.println("--- CORE-SERVICE 세션 확인 ---");
+            System.out.println("Principal 객체가 null입니다. (Anonymous 사용자)");
+            System.out.println("-----------------------------");
+        }
+        // ✨✨✨✨✨✨✨✨✨✨✨✨
+
+        List<BookingResponseDto> bookings = bookingService.findMyBookings();
         return ResponseEntity.ok(bookings);
     }
 

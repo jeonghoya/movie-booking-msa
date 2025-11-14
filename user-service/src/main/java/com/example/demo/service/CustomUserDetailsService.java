@@ -21,8 +21,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+//        User user = userRepository.findByEmail(email)
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
 //        // ✨ 사용자의 역할을 GrantedAuthority로 변환합니다.
 //        List<GrantedAuthority> authorities = new ArrayList<>();
@@ -32,8 +32,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 //        // ✨ 기존 new ArrayList<>() 대신, 방금 만든 authorities 리스트를 넣어줍니다.
 //        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
 
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+
         // ✨ User Entity 대신 가벼운 SessionUser DTO를 반환합니다.
-        // ✨ Spring Security는 이제 이 DTO를 세션에 저장할 것입니다.
-        return new com.example.demo.dto.SessionUser(user); // ✨ SessionUser 반환
+        // ✨ (SessionUser.java 파일은 이미 준비되어 있습니다)
+        return new com.example.demo.dto.SessionUser(user);
     }
 }
