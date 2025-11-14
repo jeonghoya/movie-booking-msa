@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
@@ -12,25 +14,38 @@ import org.springframework.security.jackson2.SecurityJackson2Modules;
 @Configuration
 public class RedisConfig {
 
+    /**
+     * 🔥 1) Redis 서버 연결 설정 (중요)
+     * docker-compose.yml 에서 Redis 컨테이너 이름이 'myredis' 이므로
+     * hostName = "myredis" 로 설정해야 모든 서비스가 동일한 Redis를 사용함.
+     */
     @Bean
-    public RedisSerializer<Object> springSessionDefaultRedisSerializer() {
-        // 1. 기본 Jackson ObjectMapper를 생성합니다.
+    public RedisConnectionFactory redisConnectionFactory() {
+        return new LettuceConnectionFactory("myredis", 6379);
+    }
+
+    /**
+     * 🔥 2) ObjectMapper 빈 등록 → Security 모듈 + DefaultTyping 활성화
+     * 두 서비스의 직렬화 설정을 100% 동일하게 맞추는 핵심
+     */
+    @Bean
+    public ObjectMapper redisObjectMapper() {
         ObjectMapper mapper = new ObjectMapper();
-
-        // 2. Spring Security의 특별한 객체들(예: DefaultSavedRequest)을
-        //    처리할 수 있도록 Security 모듈을 등록합니다. (500 에러 방지)
         mapper.registerModules(SecurityJackson2Modules.getModules(getClass().getClassLoader()));
-
-        // 3. ✨ JSON에 클래스 타입 정보를 함께 저장합니다. ✨
-        //    이것이 core-service가 User 객체를 인식하게 하는 핵심입니다.
         mapper.activateDefaultTyping(
                 LaissezFaireSubTypeValidator.instance,
                 ObjectMapper.DefaultTyping.NON_FINAL,
                 JsonTypeInfo.As.PROPERTY
         );
+        return mapper;
+    }
 
-        // 4. Spring Security 모듈과 타입 정보가 등록된 ObjectMapper를 사용하여
-        //    새로운 JSON 직렬화기를 생성합니다.
-        return new GenericJackson2JsonRedisSerializer(mapper);
+    /**
+     * 🔥 3) Redis 세션 직렬화기 등록
+     * spring-session이 이 Serializer를 사용하여 SecurityContext 저장/복원함.
+     */
+    @Bean
+    public RedisSerializer<Object> springSessionDefaultRedisSerializer(ObjectMapper redisObjectMapper) {
+        return new GenericJackson2JsonRedisSerializer(redisObjectMapper);
     }
 }
