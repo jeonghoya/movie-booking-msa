@@ -5,14 +5,17 @@ import com.example.demo.dto.UserInfoResponseDto;
 import com.example.demo.dto.UserSignUpRequestDto;
 import com.example.demo.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,23 +32,30 @@ public class UserController {
         return ResponseEntity.ok("회원가입이 성공적으로 완료되었습니다.");
     }
 
-    // 로그인 API 수정
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletRequest request) {
+    public ResponseEntity<String> login(@RequestBody LoginRequestDto loginRequestDto,
+                                        HttpServletRequest request) {
 
-        // 1. Spring Security의 인증 매니저를 통해 인증 수행
+        // 1. 이메일/비번으로 인증
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequestDto.getEmail(), loginRequestDto.getPassword())
+                new UsernamePasswordAuthenticationToken(
+                        loginRequestDto.getEmail(),
+                        loginRequestDto.getPassword()
+                )
         );
 
-        // 2. 인증이 성공하면, SecurityContext에 인증 정보 저장
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        // 2. SecurityContext 생성 후 Authentication 저장
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(authentication);
+        SecurityContextHolder.setContext(securityContext);
 
-        // 3. Spring Session이 세션을 강제로 생성하고 Redis에 저장하도록 함
-        // 이 코드가 실행되면, 클라이언트에게 "SESSION" 쿠키가 발급됨.
-        request.getSession(true);
+        // 3. 세션 생성 + SecurityContext를 세션에 저장
+        HttpSession session = request.getSession(true);
+        session.setAttribute(
+                HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+                securityContext
+        );
 
-        // 4. JWT 토큰 대신 간단한 성공 메시지 반환
         return ResponseEntity.ok("로그인 성공");
     }
 
