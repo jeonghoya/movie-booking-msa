@@ -12,9 +12,9 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ScreeningHall implements Serializable {
+public class ScreeningHall {
 
-    private static final long serialVersionUID = 1L; // ✨ 이 줄 추가
+    //private static final long serialVersionUID = 1L; // ✨ 이 줄 추가
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

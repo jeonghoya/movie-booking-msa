@@ -15,9 +15,9 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User implements Serializable {
+public class User {
 
-    private static final long serialVersionUID = 1L; // ✨ 이 줄 추가
+    //private static final long serialVersionUID = 1L; // ✨ 이 줄 추가
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,7 @@ public class User implements Serializable {
     // 예매 목록과의 관계 (1:N)
     @JsonIgnore // <-- 이 어노테이션을 추가하세요!
     @OneToMany(mappedBy = "user")
-    private transient List<Booking> bookings = new ArrayList<>();
+    private List<Booking> bookings = new ArrayList<>();
 
     // --- ✨ 아래 필드를 새로 추가합니다. ---
     @Column(nullable = false)
@@ -45,7 +45,7 @@ public class User implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private transient List<Review> reviews = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
 
     // ✨ 연관관계 편의 메소드 추가
     public void addReview(Review review) {

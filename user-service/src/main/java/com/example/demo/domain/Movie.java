@@ -59,9 +59,9 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Movie implements Serializable {
+public class Movie {
 
-    private static final long serialVersionUID = 1L; // ✨ 이 줄 추가
+    //private static final long serialVersionUID = 1L; // ✨ 이 줄 추가
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,12 +78,12 @@ public class Movie implements Serializable {
     // Movie는 이제 Booking이 아닌 Screening과 직접 관계를 맺습니다.
     @JsonIgnore
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
-    private transient List<Screening> screenings = new ArrayList<>();
+    private List<Screening> screenings = new ArrayList<>();
     // --- 여기까지 ---
 
     @JsonIgnore
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
-    private transient List<Review> reviews = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
 
     public void addReview(Review review) {
         this.reviews.add(review);

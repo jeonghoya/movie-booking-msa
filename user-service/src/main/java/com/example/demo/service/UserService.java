@@ -3,10 +3,12 @@ package com.example.demo.service;
 import com.example.demo.domain.User;
 import com.example.demo.domain.UserRoleEnum;
 import com.example.demo.dto.LoginRequestDto;
+import com.example.demo.dto.SessionUser;
 import com.example.demo.dto.UserInfoResponseDto;
 import com.example.demo.dto.UserSignUpRequestDto;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -87,8 +89,17 @@ public class UserService {
 
     // --- '내 정보 조회' 메소드 ---
     public UserInfoResponseDto getUserInfo(String email) {
-        User user = userRepository.findByEmail(email)
+//        User user = userRepository.findByEmail(email)
+//                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        // 1. SecurityContext에서 SessionUser DTO를 직접 꺼냅니다.
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SessionUser sessionUser = (SessionUser) principal;
+
+        // 2. DTO의 ID로 DB에서 User Entity를 조회합니다.
+        User user = userRepository.findById(sessionUser.getId())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
         return new UserInfoResponseDto(user);
     }
 }

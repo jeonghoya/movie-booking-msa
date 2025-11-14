@@ -7,6 +7,7 @@ import com.example.demo.domain.User;
 import com.example.demo.domain.UserRoleEnum;
 import com.example.demo.dto.ReviewRequestDto;
 import com.example.demo.dto.ReviewResponseDto;
+import com.example.demo.dto.SessionUser;
 import com.example.demo.repository.MovieRepository;
 import com.example.demo.repository.ReviewRepository;
 import com.example.demo.repository.UserRepository;
@@ -110,9 +111,17 @@ public class ReviewService {
 
     @Transactional
     public Review createReview(Long movieId, ReviewRequestDto requestDto) { // ✨ 파라미터 수정
-        // ✨ SecurityContext에서 사용자 정보 가져오기
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(email)
+//        // ✨ SecurityContext에서 사용자 정보 가져오기
+//        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+//        User user = userRepository.findByEmail(email)
+//                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        // 1. SecurityContext에서 SessionUser DTO를 직접 꺼냅니다.
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SessionUser sessionUser = (SessionUser) principal;
+
+        // 2. (선택적) DB에서 User Entity를 다시 조회합니다. (JPA 연관관계가 필요하므로)
+        User user = userRepository.findById(sessionUser.getId()) // ✨ ID로 조회
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         Movie movie = movieRepository.findById(movieId)
@@ -133,8 +142,16 @@ public class ReviewService {
 
     @Transactional
     public Review updateReview(Long reviewId, ReviewRequestDto requestDto) { // ✨ 파라미터 수정
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(email)
+//        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+//        User user = userRepository.findByEmail(email)
+//                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        // 1. SecurityContext에서 SessionUser DTO를 직접 꺼냅니다.
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SessionUser sessionUser = (SessionUser) principal;
+
+        // 2. (선택적) DB에서 User Entity를 다시 조회합니다. (JPA 연관관계가 필요하므로)
+        User user = userRepository.findById(sessionUser.getId()) // ✨ ID로 조회
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         Review review = reviewRepository.findById(reviewId)
@@ -151,8 +168,16 @@ public class ReviewService {
 
     @Transactional
     public void deleteReview(Long reviewId) { // ✨ 파라미터 수정
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(email)
+//        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+//        User user = userRepository.findByEmail(email)
+//                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        // 1. SecurityContext에서 SessionUser DTO를 직접 꺼냅니다.
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SessionUser sessionUser = (SessionUser) principal;
+
+        // 2. (선택적) DB에서 User Entity를 다시 조회합니다. (JPA 연관관계가 필요하므로)
+        User user = userRepository.findById(sessionUser.getId()) // ✨ ID로 조회
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         Review review = reviewRepository.findById(reviewId)
@@ -168,8 +193,16 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public List<ReviewResponseDto> findMyReviews() { // ✨ 파라미터 수정
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(email)
+//        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+//        User user = userRepository.findByEmail(email)
+//                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        // 1. SecurityContext에서 SessionUser DTO를 직접 꺼냅니다.
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SessionUser sessionUser = (SessionUser) principal;
+
+        // 2. (선택적) DB에서 User Entity를 다시 조회합니다. (JPA 연관관계가 필요하므로)
+        User user = userRepository.findById(sessionUser.getId()) // ✨ ID로 조회
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         return reviewRepository.findByUserId(user.getId()).stream()

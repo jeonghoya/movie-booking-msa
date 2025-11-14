@@ -5,6 +5,7 @@ import com.example.demo.domain.Screening;
 import com.example.demo.domain.User;
 import com.example.demo.dto.BookingRequestDto;
 import com.example.demo.dto.BookingResponseDto;
+import com.example.demo.dto.SessionUser;
 import com.example.demo.repository.BookingRepository;
 import com.example.demo.repository.ScreeningRepository;
 import com.example.demo.repository.UserRepository;
@@ -98,9 +99,17 @@ public class BookingService {
     @Transactional
     public Booking createBooking(BookingRequestDto requestDto) { // ✨ 파라미터에서 email 제거
 
-        // ✨ SecurityContext에서 현재 세션의 사용자 이메일(ID)을 가져옴
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(email)
+//        // ✨ SecurityContext에서 현재 세션의 사용자 이메일(ID)을 가져옴
+//        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+//        User user = userRepository.findByEmail(email)
+//                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        // 1. SecurityContext에서 SessionUser DTO를 직접 꺼냅니다.
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SessionUser sessionUser = (SessionUser) principal;
+
+        // 2. (선택적) DB에서 User Entity를 다시 조회합니다. (JPA 연관관계가 필요하므로)
+        User user = userRepository.findById(sessionUser.getId()) // ✨ ID로 조회
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         Screening screening = screeningRepository.findById(requestDto.getScreeningId())
@@ -125,9 +134,17 @@ public class BookingService {
 
     @Transactional(readOnly = true)
     public List<BookingResponseDto> findMyBookings() { // ✨ 파라미터에서 email 제거
-        // ✨ SecurityContext에서 사용자 정보 가져오기
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(email)
+//        // ✨ SecurityContext에서 사용자 정보 가져오기
+//        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+//        User user = userRepository.findByEmail(email)
+//                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        // 1. SecurityContext에서 SessionUser DTO를 직접 꺼냅니다.
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SessionUser sessionUser = (SessionUser) principal;
+
+        // 2. (선택적) DB에서 User Entity를 다시 조회합니다. (JPA 연관관계가 필요하므로)
+        User user = userRepository.findById(sessionUser.getId()) // ✨ ID로 조회
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         return bookingRepository.findByUserId(user.getId()).stream()
@@ -137,9 +154,17 @@ public class BookingService {
 
     @Transactional
     public void cancelBooking(Long bookingId) { // ✨ 파라미터에서 email 제거
-        // ✨ SecurityContext에서 사용자 정보 가져오기
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(email)
+//        // ✨ SecurityContext에서 사용자 정보 가져오기
+//        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+//        User user = userRepository.findByEmail(email)
+//                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        // 1. SecurityContext에서 SessionUser DTO를 직접 꺼냅니다.
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SessionUser sessionUser = (SessionUser) principal;
+
+        // 2. (선택적) DB에서 User Entity를 다시 조회합니다. (JPA 연관관계가 필요하므로)
+        User user = userRepository.findById(sessionUser.getId()) // ✨ ID로 조회
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         Booking booking = bookingRepository.findById(bookingId)
