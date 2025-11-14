@@ -34,8 +34,11 @@ public class SessionUser implements UserDetails, Serializable {
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.role = user.getRole();
+//        this.authorities = Collections.singletonList(
+//                new SimpleGrantedAuthority(user.getRole().name())
+//        );
         this.authorities = Collections.singletonList(
-                new SimpleGrantedAuthority(user.getRole().name())
+                new SimpleGrantedAuthority(user.getRole().getAuthority())   // ROLE_ADMIN, ROLE_USER
         );
         this.enabled = true;
     }
