@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ✨ --- 1. 누락되었던 사용자 정보 조회 fetch 코드 --- ✨
-    fetch('/api/user/me')
+    fetch('/api/user/me', {credentials: 'include'})
     .then(response => response.json())
     .then(userInfo => {
         // 받아온 정보로 HTML 요소의 내용을 채움
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ✨ --- 2. 기존에 있던 내 리뷰 목록 조회 fetch 코드 --- ✨
     const myReviewListDiv = document.getElementById('my-review-list');
-    fetch('/api/core/users/me/reviews')
+    fetch('/api/core/users/me/reviews', {credentials: 'include'})
     .then(res => res.json())
     .then(reviews => {
         myReviewListDiv.innerHTML = '';

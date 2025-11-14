@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 1. 내 예매 내역 API 호출
-    fetch('/api/core/bookings')
+    fetch('/api/core/bookings', {credentials: 'include'})
     .then(response => response.json())
     .then(bookings => {
         if (bookings.length === 0) {
@@ -46,7 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (confirm('정말로 이 예매를 취소하시겠습니까?')) {
                 try {
                     const response = await fetch(`/api/core/bookings/${bookingId}`, {
-                        method: 'DELETE'
+                        method: 'DELETE',
+                        credentials: 'include'
                     });
 
                     if (response.ok) {

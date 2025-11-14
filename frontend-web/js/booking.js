@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 상영 정보와 예매된 좌석 정보를 동시에 가져옴
         Promise.all([
-            fetch(`/api/core/screenings/${screeningId}`).then(res => res.json()),
-            fetch(`/api/core/screenings/${screeningId}/booked-seats`).then(res => res.json())
+            fetch(`/api/core/screenings/${screeningId}`, {credentials: 'include'}).then(res => res.json()),
+            fetch(`/api/core/screenings/${screeningId}/booked-seats`, {credentials: 'include'}).then(res => res.json())
         ]).then(([screeningData, bookedSeats]) => {
             screeningDetails = screeningData;
 
@@ -91,9 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('/api/core/bookings', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    //'Authorization': `Bearer ${token}`
+                    'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify({ screeningId: screeningId, seats: selectedSeats })
             });
             if (response.ok) {

@@ -87,9 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const response = await fetch(`/api/core/movies/${movieId}/reviews`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                //'Authorization': `Bearer ${token}`
+                'Content-Type': 'application/json'
             },
+            credentials: 'include',
             body: JSON.stringify({ content, rating })
         });
 

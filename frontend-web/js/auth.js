@@ -48,7 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 await fetch('/api/user/logout', {
                     method: 'POST',
-                    headers: {}
+                    credentials: 'include',
+                    //headers: {}
                     //headers: { 'Authorization': `Bearer ${token}` }
                 });
                 //localStorage.removeItem('token');
@@ -86,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ email, username, password }),
+                    credentials: 'include',
                 });
 
                 if (response.ok) {
@@ -119,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ email, password }),
+                    credentials: 'include',
                 });
 
                 if (response.ok) {
