@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const user = await userRes.json();
 
-    if (user.role !== 'ADMIN') {
+    if (user.role !== 'ADMIN' || user.role !== 'ROLE_ADMIN') {
         alert('관리자만 접근할 수 있습니다.');
         window.location.href = '/';
         return;

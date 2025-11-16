@@ -25,32 +25,43 @@
 
 <script src="/js/auth.js"></script> <script src="/js/movies.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", async () => {
+    document.addEventListener('DOMContentLoaded', () => {
+        const adminLink = document.getElementById('admin-link');
+        if (!adminLink) return;
 
-        const adminLinkEl = document.getElementById('admin-link');
-        if (!adminLinkEl) return; // 요소 없으면 종료 (에러 방지)
+        (async () => {
+            try {
+                const res = await fetch('/api/user/me', {
+                    credentials: 'include'
+                });
 
-        try {
-            const res = await fetch('/api/user/me', { credentials: 'include' });
+                if (!res.ok) {
+                    adminLink.style.display = 'none';
+                    return;
+                }
 
-            if (!res.ok) {
-                adminLinkEl.style.display = 'none';
-                return;
+                const user = await res.json();
+                console.log('checkAdmin user =', user);   // ⭐ 실제 role 값 한번 확인
+
+                // role이 "ADMIN" 이거나, "ROLE_ADMIN" 이거나, {name:"ADMIN"} 형태인 경우까지 커버
+                let role = '';
+
+                if (typeof user.role === 'string') {
+                    role = user.role;
+                } else if (user.role && typeof user.role.name === 'string') {
+                    role = user.role.name;
+                }
+
+                if (role === 'ADMIN' || role === 'ROLE_ADMIN') {
+                    adminLink.style.display = 'inline';
+                } else {
+                    adminLink.style.display = 'none';
+                }
+            } catch (e) {
+                console.error('checkAdmin error', e);
+                adminLink.style.display = 'none';
             }
-
-            const user = await res.json();
-
-            if (user.role === 'ADMIN') {
-                adminLinkEl.style.display = 'inline';
-            } else {
-                adminLinkEl.style.display = 'none';
-            }
-
-        } catch (error) {
-            // 네트워크 오류 시에도 버튼 숨기기
-            adminLinkEl.style.display = 'none';
-        }
-
+        })();
     });
 </script>
 </body>
