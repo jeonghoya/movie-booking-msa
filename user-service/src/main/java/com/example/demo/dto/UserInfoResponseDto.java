@@ -8,11 +8,13 @@ public class UserInfoResponseDto {
     private Long id;
     private String email;
     private String username;
+    private String role;
 
     // Entity를 DTO로 변환하는 생성자
     public UserInfoResponseDto(User user) {
         this.id = user.getId();
         this.email = user.getEmail();
         this.username = user.getUsername();
+        this.role = user.getRole().name();   // "ADMIN" 또는 "USER"
     }
 }
