@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //        if (userRole === 'ADMIN' && adminLink) {
 //            adminLink.style.display = 'inline';
 //        }
-        if (adminLink) adminLink.style.display = 'inline'; // (임시)
+        //if (adminLink) adminLink.style.display = 'inline'; // (임시)
 
         if (logoutLink) {
             logoutLink.addEventListener('click', async (e) => {

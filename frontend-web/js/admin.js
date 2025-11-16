@@ -4,14 +4,31 @@ document.addEventListener('DOMContentLoaded', () => {
     //const token = localStorage.getItem('token');
     // 간단한 JWT 해석 함수 (auth.js에도 동일한 함수가 있어야 함)
     //function parseJwt(token) { try { return JSON.parse(atob(token.split('.')[1])); } catch (e) { return null; } }
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    //const isLoggedIn = localStorage.getItem('isLoggedIn');
 
     // 관리자가 아니면 페이지 접근 차단
-    if (!isLoggedIn) {
+//    if (!isLoggedIn) {
+//        alert('관리자만 접근할 수 있습니다.');
+//        window.location.href = '/';
+//        return;
+//    }
+
+    const userRes = await fetch('/api/user/me', { credentials: 'include' });
+
+    if (!userRes.ok) {
+        alert('로그인이 필요합니다.');
+        window.location.href = '/';
+        return;
+    }
+
+    const user = await userRes.json();
+
+    if (user.role !== 'ADMIN') {
         alert('관리자만 접근할 수 있습니다.');
         window.location.href = '/';
         return;
     }
+
 
     // --- 1. ✨ 새로운 변수들을 선언합니다 ---
     const movieForm = document.getElementById('movie-form');
@@ -136,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const method = id ? 'PUT' : 'POST';
-        const url = id ? `/movies/${id}` : '/movies';
+        const url = id ? `/api/core/movies/${id}` : '/api/core/movies';
 
         const response = await fetch(url, {
             method: method,
