@@ -68,9 +68,17 @@ public class UserController {
 
     // --- 아래 로그아웃 메소드를 새로 추가합니다. ---
     @PostMapping("/logout")
-    public ResponseEntity<String> logout() {
+    public ResponseEntity<String> logout(HttpServletRequest request) {
         // 실제로는 클라이언트 측에서 토큰을 삭제하는 것이 핵심입니다.
         // 서버에서는 특별히 할 일이 없으므로, 성공 응답만 반환합니다.
+
+        //-----------------------------
+        HttpSession session = request.getSession(false);
+
+        if (session != null) {
+            session.invalidate(); // 세션 완전 삭제!
+        }
+        //--------------------------------
         return ResponseEntity.ok("로그아웃 되었습니다.");
     }
 }
