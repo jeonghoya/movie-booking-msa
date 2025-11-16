@@ -2,19 +2,33 @@ version: '3.3'
 
 services:
   # 1. 역방향 프록시 (Nginx Proxy Manager)
-  myproxy:
-    image: jc21/nginx-proxy-manager
-    container_name: myproxy
-    restart: unless-stopped
+#  myproxy:
+#    image: jc21/nginx-proxy-manager
+#    container_name: myproxy
+#    restart: unless-stopped
+#    ports:
+#      - "80:80"   # HTTP
+#      - "81:81"   # Nginx Proxy Manager 관리자 페이지
+#      - "443:443" # HTTPS
+#    volumes:
+#      - ./nginx-proxy-manager/data:/data
+#      - ./nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+#    networks:
+#      - msa-net
+  reverse-proxy:
+    build:
+      context: ./reverse-proxy
+    container_name: reverse-proxy
+    restart: always
     ports:
-      - "80:80"   # HTTP
-      - "81:81"   # Nginx Proxy Manager 관리자 페이지
-      - "443:443" # HTTPS
-    volumes:
-      - ./nginx-proxy-manager/data:/data
-      - ./nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+      - "80:80"
+    depends_on:
+      - frontend-web
+      - user-service
+      - core-service
     networks:
       - msa-net
+
 
   # 2. 프론트엔드 프로그램 (Apache)
   frontend-web:
